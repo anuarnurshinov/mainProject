@@ -1,31 +1,43 @@
+import {
+    animate
+} from "./helper"
+
 const modal = () => {
     const buttons = document.querySelectorAll('.popup-btn')
     const modal = document.querySelector('.popup')
-    const closeBtn = modal.querySelector('.popup-close')
     const popupContent = modal.querySelector('.popup-content')
-    let count = 0
-    let idInterval
-
+    let bounceEaseOut
 
     const animation = () => {
-        if (document.documentElement.clientWidth > 786) {
-            count++
-            idInterval = requestAnimationFrame(animation)
-            modal.style.display = 'block'
-            if (count < 20) {
-                popupContent.style.left = `${count*2}%`
-            } else {
-                cancelAnimationFrame(idInterval)
-                count = 0
+        modal.style.display = 'block'
+        animate({
+            duration: 1500,
+            timing: bounceEaseOut,
+            draw: function (progress) {
+                popupContent.style.left = progress * 40 + '%';
             }
-        } else {
-            modal.style.display = 'block'
-        }
-
-
+        });
     }
 
+    const makeEaseOut = (timing) => {
+        return function (timeFraction) {
+            return 1 - timing(1 - timeFraction);
+        }
+    }
+
+    const bounce = (timeFraction) => {
+        for (let a = 0, b = 1; 1; a += b, b /= 2) {
+            if (timeFraction >= (7 - 4 * a) / 11) {
+                return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
+            }
+        }
+    }
+
+
+
+
     buttons.forEach(btn => {
+        bounceEaseOut = makeEaseOut(bounce);
         btn.addEventListener('click', animation)
     })
 
@@ -34,5 +46,6 @@ const modal = () => {
             modal.style.display = 'none'
         }
     })
+
 }
 export default modal

@@ -12,7 +12,7 @@ const tabs = () => {
                     tabContent[index].classList.remove('d-none')
                 } else {
                     tab.classList.remove('active')
-                    tabContent[index].classList.remove('d-none')
+                    tabContent[index].classList.add('d-none')
                 }
             })
         }
