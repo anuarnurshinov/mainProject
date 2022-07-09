@@ -23,7 +23,7 @@ const calc = (price = 100) => {
             calcCountValue += calcCount.value / 10
         }
         if (calcType.value && caclSquare.value) {
-            totalValue = price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue
+            totalValue = Math.ceil(price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue)
         } else {
             totalValue = 0
         }
